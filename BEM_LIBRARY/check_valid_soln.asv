@@ -6,8 +6,7 @@ function bool = check_valid_soln(design, conf)
 % YOU CAN ADD TO THIS TO CONSTRAIN YOUR SOLN IF REQUIRED
 tol = 1e-4;
 
-if all(design.a > tol) && all(design.a_prime > tol) && all(design.alpha > conf.angs(:,1)' + tol) && all(design.alpha < conf.angs(:,2)' - tol)
-% if all(design.a > tol) && all(design.a_prime > tol)    
+if all(design.a > tol) && all(design.a_prime > tol) && any(design.alpha > conf.angs(:,1) + tol) && any(design.alpha < conf.angs(:,2) - tol)
     bool = true;
 else
     bool = false;

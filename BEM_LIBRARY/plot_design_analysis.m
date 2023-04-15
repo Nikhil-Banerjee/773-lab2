@@ -1,9 +1,8 @@
-function plot_design_analysis(Vu_range, RPM_range, design, max_rpm, print_warnings)
+function plot_design_analysis(Vu_range, RPM_range, design, max_rpm, print_warnings, conf)
 % plots a given turbine design over a range of operating conditions for
 % analysis
 
 %global conf;
-load('conf_variable.mat','conf')
 RPM2RADS = conf.RPM2RADS;
 verbose  = conf.verbose;
 
@@ -32,10 +31,10 @@ for vel = Vu_range
         lambda = omega*design.r(end)/vel;
         if lambda < 0 || lambda >15; continue; end
 
-        [Q_out, design_out] = compute_bem(rpm, vel, design, print_warnings);
+        [Q_out, design_out] = compute_bem(rpm, vel, design, print_warnings, conf);
 
         % dont plot results if the solution doesnt make physical sense
-        if dont_plot_garbage && ~check_valid_soln(design_out)
+        if dont_plot_garbage && ~check_valid_soln(design_out,conf)
             if verbose; fprintf("Skipped RPM = %.2f due to non-physical a or a'\n",rpm); end
             if rpm > 100 && good_count >= 10; bad_count = bad_count + 1; end
             continue
@@ -85,7 +84,7 @@ i = 1;
 
 % Plot the roots, i.e., the operating conditions
 for vel = Vu_range
-    [intr, torque, power] = solve_for_turbine_performance(vel, design, max_rpm);
+    [intr, torque, power] = solve_for_turbine_performance(vel, design, max_rpm,conf);
 
     if intr < 0 || intr > max_rpm + 5; continue; end % Dont plot root if outside of design range
 

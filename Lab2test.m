@@ -12,7 +12,7 @@ conf.afBank = [conf.bemLib '\aerofoil_bank']; % Specify the aerofoil bank for la
 
 conf.afCache = 'aerofoil_database.mat' % Give the current aerofoil database
 conf.clearance = 0.2;
-conf.blades = 5; % The number of blades
+conf.blades = 8; % The number of blades
 conf.nelems = 3; % The number of elements in the blade
 conf.foils = {
     {'NACA0012' 'naca1408.dat' 'clarky.dat'}, % The possible foils for elem 1

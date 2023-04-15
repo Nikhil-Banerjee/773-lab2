@@ -20,11 +20,11 @@ alpha_pos = step:step:20;
 
 % loop through the foils and store the data
 for i = 1:N_FOILS
-    [pol_neg,~] = callXfoil(afs{i}, alpha_neg, Re, 0);
+    [pol_neg,~] = callXfoil(afs{i}, alpha_neg, Re, 0, conf);
     pol.alpha = flip(pol_neg.alpha);
     pol.CL = flip(pol_neg.CL);
     pol.CD = flip(pol_neg.CD);
-    [pol_pos,~] = callXfoil(afs{i}, alpha_pos, Re, 0);
+    [pol_pos,~] = callXfoil(afs{i}, alpha_pos, Re, 0, conf);
     pol.name = afs{i};
     pol.Re = pol_pos.Re;
     pol.alpha = [pol.alpha; pol_pos.alpha];

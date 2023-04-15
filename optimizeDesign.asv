@@ -10,7 +10,7 @@ conf.afBank = [conf.bemLib '\aerofoil_bank']; % Specify the aerofoil bank for la
 
 conf.afCache = 'aerofoil_database.mat'; % Give the current aerofoil database
 conf.clearance = 0.2;
-conf.blades = 8; % The number of blades
+conf.blades = 5; % The number of blades
 conf.nelems = 3; % The number of elements in the blade
 foilsArray = {'NACA0012' 'NACA0015' 'clarky.dat' 'naca1408.dat' 'NACA2415' 'NACA2418' 'Clarky.dat' 'NACA0018' 'NACA6642' 'a18.dat' 'a18sm.dat' 'e63.dat' 's1091.dat' 'goe417a.dat' 'bw3.dat' 'arad6.dat' 'goe396.dat' 'sokolov.dat' 'gm15sm.dat' 'goe495.dat' 'oaf095.dat' 'goe483.dat' 'ah6407.dat' 'fx63100.dat' 'goe484.dat' 'goe456.dat' 'ma409sm.dat' 'goe803h.dat' 'giiig.dat'};
 
@@ -53,7 +53,7 @@ conf.rho = 1.29; % Density of air
 conf.Re = 70000; % Approximate Reynolds number for design
 
 conf.rpmub = 200; % Maximum RPM allowed
-conf.starting_rpms = 225:-25:100; % RPMs to start with for zero finding
+conf.starting_rpms = [50:25:225]; % RPMs to start with for zero finding
 
 conf.windspeed   = [  4,   5,   6,   7]; % Range of windspeeds in m/s
 conf.probability = [0.25, 0.25, 0.25, 0.25]; % Probability of each windspeed
@@ -92,15 +92,7 @@ ub(conf.nelems*3 + 1:nVars) = conf.chords(:,2)'; % Max chord length
 
 options = optimoptions('ga', 'PlotFcn', {@gaplotbestf, @gaplotscorediversity},'Display','iter','MaxStallGenerations',20,'FunctionTolerance',1e-4,'UseParallel',true);
 
-Alt = zeros(conf.nelems, 4 * conf.nelems);
-blt = zeros(conf.nelems, 1);
-offset = 2 * conf.nelems;
-for elem = 1:(conf.nelems - 1),
-    Alt(elem, elem + offset) = 1;
-    Alt(elem, elem + offset + 1) = -1;
-end
-
-x = ga(@(x) turbineFitness(x,conf), nVars, Alt, blt, [], [], lb, ub, [], 1:conf.nelems, options);
+x = ga(@(x) turbineFitness(x,conf), nVars, Alt, [], [], [], lb, ub, [], 1:conf.nelems, options);
 
 % Best I found so far was -41.1387
 % clarky clarky clarky 

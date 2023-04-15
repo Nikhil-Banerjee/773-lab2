@@ -1,4 +1,4 @@
-function [pol, foil] = callXfoil(coord, alpha, Re, Mach)
+function [pol, foil] = callXfoil(coord, alpha, Re, Mach, conf)
 % This function acts as a general interface to xfoil.m by Louis Edelmann:
 % https://au.mathworks.com/matlabcentral/fileexchange/49706-xfoil-interface-updated
 %
@@ -25,7 +25,7 @@ function [pol, foil] = callXfoil(coord, alpha, Re, Mach)
 % needed.
 %
 % Kevin Jia, UoA EngSci, 2017.
-global conf;
+%global conf;
 
 if isa(coord, 'char') == true && strcmp(coord(1:4), 'NACA') == true
     % A built in NACA airfoil.
