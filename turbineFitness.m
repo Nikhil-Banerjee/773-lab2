@@ -78,20 +78,28 @@ end
 % 
 % fit = -(avg_power - min_rpm_penalty - max_rpm_penalty - na_power_penalty);
 
+stall_solns = Powers(1:end-1) > Powers(2:end);
+if any(stall_solns)
+    ind = [find(stall_solns), find(stall_solns) + 1];
+    ind = unique(ind);
+    Powers(ind) = NaN;
+    RPMs(ind) = NaN;
+end
+
 if all(isnan(Powers))
-    fit = 400;
+    fit = 5000;
     return
     
 else
-    avg_power = sum(Powers .* conf.probability');
+    avg_power = sum(Powers .* conf.probability', 'omitnan');
 end
 
-% min_rpm_penalty = 5*max(0,100 - min(RPMs));
-spread_penalty = 0.5*(max(RPMs) - min(RPMs));
-max_rpm_penalty = 50*max(0, max(RPMs) - conf.rpmub);
+min_rpm_penalty = 5*max(0,100 - min(RPMs));
+% spread_penalty = 0.5*(max(RPMs) - min(RPMs));
+max_rpm_penalty = 5*max(0, max(RPMs) - conf.rpmub);
 na_power_penalty = 100*sum(isnan(Powers));
 
-fit = -(avg_power - spread_penalty - max_rpm_penalty - na_power_penalty);
+fit = -(avg_power - min_rpm_penalty - max_rpm_penalty - na_power_penalty);
 
 
 % n_nas = sum(nas);

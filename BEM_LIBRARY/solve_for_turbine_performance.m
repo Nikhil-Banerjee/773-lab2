@@ -30,16 +30,16 @@ for IC = test_rpms
             rethrow(ME);
         end
     end
-    if ~isnan(rpm) && rpm < max_rpm
+    if ~isnan(rpm)
         [~, design_root] = compute_bem(rpm, vel, design, false, conf);
         if check_valid_soln(design_root, conf)
             if check_edge_case
                 % sometimes roots at the very edge of the valid domain can 
                 % pass checks - check whether a slightly higher rpm is
                 % valid to ensure this isn't an edge case.
-                [~, design_root] = compute_bem(rpm + 2.5, vel, design, false, conf);
-                [~, design_root_2] = compute_bem(rpm + 2.5, vel, design, false, conf);
-                if check_valid_soln(design_root, conf) && check_valid_soln(design_root_2, conf)
+                [~, design_root_1] = compute_bem(rpm + 5, vel, design, false, conf);
+                [~, design_root_2] = compute_bem(rpm - 5, vel, design, false, conf);
+                if check_valid_soln(design_root_1, conf) && check_valid_soln(design_root_2, conf)
                     break   % found a valid soln (root) - break from loop
                 else
                     rpm = NaN;
