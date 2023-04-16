@@ -90,9 +90,9 @@ ub(conf.nelems+1:conf.nelems*2) = conf.angs(:,2)'; % Max angle of attack
 ub(conf.nelems*2 + 1:conf.nelems*3) = conf.rads(:,2)'; % Max radii
 ub(conf.nelems*3 + 1:nVars) = conf.chords(:,2)'; % Max chord length
 
-load('1_nan.mat')
+load('best_feasible_soln.mat')
 
-options = optimoptions('ga', 'PlotFcn', {@gaplotbestf, @gaplotscorediversity},'Display','iter','MaxStallGenerations',20,'FunctionTolerance',1e-4,'UseParallel',true, 'InitialPopulationMatrix',x);
+options = optimoptions('ga', 'PlotFcn', {@gaplotbestf, @gaplotscorediversity},'Display','iter','MaxStallGenerations',40,'FunctionTolerance',1e-4,'UseParallel',true, 'InitialPopulationMatrix',x);
 
 Alt = zeros(conf.nelems, 4 * conf.nelems);
 blt = zeros(conf.nelems, 1);
