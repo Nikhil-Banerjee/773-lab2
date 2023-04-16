@@ -40,7 +40,12 @@ for IC = test_rpms
                 [~, design_root_1] = compute_bem(rpm + 5, vel, design, false, conf);
                 [~, design_root_2] = compute_bem(rpm - 5, vel, design, false, conf);
                 if check_valid_soln(design_root_1, conf) && check_valid_soln(design_root_2, conf)
-                    break   % found a valid soln (root) - break from loop
+                    
+                    if (max(design_root.alpha - design_root_1.alpha) < 1) && (max(design_root.alpha - design_root_2.alpha) < 1)
+                        break   % found a valid soln (root) - break from loop
+                    else
+                        rpm = NaN;
+                    end
                 else
                     rpm = NaN;
                 end

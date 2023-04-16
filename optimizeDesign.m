@@ -92,7 +92,7 @@ ub(conf.nelems*3 + 1:nVars) = conf.chords(:,2)'; % Max chord length
 
 load('best_feasible_soln.mat')
 
-options = optimoptions('ga', 'PlotFcn', {@gaplotbestf, @gaplotscorediversity},'Display','iter','MaxStallGenerations',40,'FunctionTolerance',1e-4,'UseParallel',true, 'InitialPopulationMatrix',x);
+options = optimoptions('ga', 'PlotFcn', {@gaplotbestf, @gaplotscorediversity},'Display','iter','MaxStallGenerations',40,'FunctionTolerance',1e-4,'UseParallel',true,'InitialPopulationMatrix',x);
 
 Alt = zeros(conf.nelems, 4 * conf.nelems);
 blt = zeros(conf.nelems, 1);
